@@ -8,3 +8,6 @@ for word in words:
 print("Словарь слов и их количества: ")
 for word, count in words_counts.items():
     print(word + ":" + str(count))
+
+unique_count = len(words_counts)
+print("Количество уникальных слов: " + str(unique_count))

@@ -12,7 +12,6 @@ def merge_dicts(dict_a, dict_b):
         else:
             dict_a[key] = value
 
-# Пример использования
 dict_a = {"a": 1, "b": {"c": 1, "f": 4}}
 dict_b = {"d": 1, "b": {"c": 2, "e": 3}}
 merge_dicts(dict_a, dict_b)

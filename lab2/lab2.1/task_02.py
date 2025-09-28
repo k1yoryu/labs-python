@@ -54,4 +54,14 @@ for num in numbers:
             float_numbers.append(num)
 print("Числа с плавающей точкой: ", *float_numbers)
 
+sum_kr_5 = 0
+for num in numbers:
+    if num % 5 == 0:
+        sum_kr_5 += num
+print("Сумма чисел, кратных 5: ", sum_kr_5)
 
+max_number = max(numbers)
+print("Самое большое число: ", max_number)
+
+min_number = min(numbers)
+print("Самое маленькое число: ", min_number)

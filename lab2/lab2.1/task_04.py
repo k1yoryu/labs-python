@@ -20,26 +20,17 @@ for part in parts2:
     else:
         list_2.append(value)
 
-vmeste = []
-for num in list_1:
-    if num in list_2 and num not in vmeste:
-        vmeste.append(num)
+set_1 = set(list_1)
+set_2 = set(list_2)
+
+vmeste = list(set_1 & set_2)
 print("Общие числа: ", vmeste)
 
-only_1 = []
-for num in list_1:
-    if num not in list_2 and num not in only_1:
-        only_1.append(num)
+only_1 = list(set_1 - set_2)
 print("Числа из первого набора, которых нет во втором: ", only_1)
 
-only_2 = []
-for num in list_2:
-    if num not in list_1 and num not in only_2:
-        only_2.append(num)
+only_2 = list(set_2 - set_1)
 print("Числа из второго набора, которых нет в первом: ", only_2)
 
-combined = []
-for num in list_1 + list_2:
-    if num not in vmeste and num not in combined:
-        combined.append(num)
+combined = list(set_1 ^ set_2)
 print("Все числа, кроме общих: ", combined)

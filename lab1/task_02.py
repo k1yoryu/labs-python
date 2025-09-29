@@ -3,11 +3,6 @@ stroka = input("Введите строку: ")
 if not stroka:
     print("Ошибка: строка не должна быть пустой!")
 else:
-    glasnie = "aeiou"
-    result = ""
-
-    for char in stroka:
-        if char.lower() not in glasnie:
-            result += char
-
+    result = stroka.replace("a", "").replace("e", "").replace("i", "").replace("o", "").replace("u", "") \
+                   .replace("A", "").replace("E", "").replace("I", "").replace("O", "").replace("U", "")
     print("Результат:", result)

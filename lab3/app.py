@@ -132,3 +132,24 @@ def client_menu(bank: Bank, client_id: str):
 
         except Exception as e:
             print(f"Ошибка: {e}")
+
+def save_statement(bank: Bank, client_id: str):
+    client = bank.get_client(client_id)
+    total = sum(acc.balance for acc in client.accounts.values())
+    data = {
+        "client": client.name,
+        "accounts": [acc.to_dict() for acc in client.accounts.values()],
+        "total_balance": total
+    }
+
+    os.makedirs(STATEMENTS_PATH, exist_ok=True)
+    filename = f"{STATEMENTS_PATH}/statement_{client_id}.json"
+    import json
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    print(f"Выписка сохранена в {filename}")
+
+
+if __name__ == "__main__":
+    bank = load_or_create_bank()
+    main_menu(bank)

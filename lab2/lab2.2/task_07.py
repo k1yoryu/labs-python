@@ -20,7 +20,11 @@ def merge_sorted_list(list1, list2):
 
     return result
 
-list1 = [1, 3, 5, 7, 9]
-list2 = [2, 4, 6, 8, 10]
+input1 = input("Введите первый отсортированный список (через пробел числа): ")
+input2 = input("Введите второй отсортированный список: (через пробел числа) ")
+
+list1 = [int(x) for x in input1.split()]
+list2 = [int(x) for x in input2.split()]
+
 result = merge_sorted_list(list1, list2)
-print(result)
+print("Результат слияния:", *result)

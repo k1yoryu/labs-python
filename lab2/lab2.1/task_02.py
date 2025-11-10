@@ -30,7 +30,7 @@ chetnie_numbers = []
 nechetnie_numbers = []
 
 for num in numbers:
-    if num % 1 == 0:
+    if type(num) == int:
         if num % 2 == 0:
             if num not in chetnie_numbers:
                 chetnie_numbers.append(num)

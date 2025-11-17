@@ -2,12 +2,16 @@ user_input_1 = input("Введите 1-ый набор чисел: ")
 parts1 = user_input_1.split()
 
 list_1 = []
+# for part in parts1:
+#     value = float(part)
+#     if value.is_integer():
+#         list_1.append(int(value))
+#     else:
+#         list_1.append(value)
+
 for part in parts1:
     value = float(part)
-    if value.is_integer():
-        list_1.append(int(value))
-    else:
-        list_1.append(value)
+    list_1.append(int(value) if value.is_integer() else value)
 
 user_input_2 = input("Введите 2-ой набор чисел: ")
 parts2 = user_input_2.split()

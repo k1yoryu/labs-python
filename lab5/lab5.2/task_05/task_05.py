@@ -11,3 +11,5 @@ def combine_dicts(dict_a, dict_b):
                 dict_a[key] = value
         else:
             dict_a[key] = value
+
+    return dict_a

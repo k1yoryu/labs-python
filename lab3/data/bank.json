@@ -1,0 +1,45 @@
+{
+  "bank": {
+    "name": "NONSTOP OBSESSION",
+    "country": "РБ",
+    "created_at": "2025-10-09",
+    "currency_rates": {
+      "USD": 1.0,
+      "EUR": 0.86,
+      "BYN": 3.01
+    },
+    "clients": [
+      {
+        "id": "1",
+        "name": "Иван Иванович Иванов",
+        "email": "ivan@google.com",
+        "phone": "+375441233322",
+        "accounts": [
+          {
+            "id": "93520a36-80f4-4dad-908a-9aa70f4ad6e6",
+            "currency": "BYN",
+            "balance": 1430.5
+          },
+          {
+            "id": "43520a36-80f4-4dad-908a-9aa70f4ad6e3",
+            "currency": "USD",
+            "balance": 206.15
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "name": "Петров Петр Петрович",
+        "email": "petr@google.com",
+        "phone": "+375291233311",
+        "accounts": [
+          {
+            "id": "13520a36-80f4-4dad-908a-9aa70f4ad6ef",
+            "currency": "BYN",
+            "balance": 950.0
+          }
+        ]
+      }
+    ]
+  }
+}

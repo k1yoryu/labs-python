@@ -15,14 +15,14 @@ square = Rectangle((7, 6), 5, 6, facecolor='saddlebrown', edgecolor='black', lin
 ax.add_patch(square)
 
 # Эллипсы — ноги
-ear_left = Ellipse((7, 6), width=2.0, height=2.0, facecolor='saddlebrown', edgecolor='black', linewidth=2)
-ear_right = Ellipse((12, 6), width=2.0, height=2.0, facecolor='saddlebrown', edgecolor='black', linewidth=2)
+ear_left = Ellipse((7, 6), width=2.0, height=2.0, facecolor='pink', edgecolor='black', linewidth=2)
+ear_right = Ellipse((12, 6), width=2.0, height=2.0, facecolor='pink', edgecolor='black', linewidth=2)
 ax.add_patch(ear_left)
 ax.add_patch(ear_right)
 
 # Эллипсы — руки по краям квадрата
-ear_left = Ellipse((7, 11.5), width=1.7, height=1.7, facecolor='saddlebrown', edgecolor='black', linewidth=2)
-ear_right = Ellipse((12, 11.5), width=1.7, height=1.7, facecolor='saddlebrown', edgecolor='black', linewidth=2)
+ear_left = Ellipse((7, 11.5), width=1.7, height=1.7, facecolor='pink', edgecolor='black', linewidth=2)
+ear_right = Ellipse((12, 11.5), width=1.7, height=1.7, facecolor='pink', edgecolor='black', linewidth=2)
 ax.add_patch(ear_left)
 ax.add_patch(ear_right)
 
@@ -85,7 +85,14 @@ ax.add_patch(pupil2)
 
 highlight2 = Ellipse((11.1, 15.1), width=0.12, height=0.12, facecolor='white', edgecolor='none')
 ax.add_patch(highlight2)
-ax.axis('off')
+# ax.axis('off')
 
+# УСЫ
+plt.plot([7, 9], [14, 13], color="black", linewidth=1)
+plt.plot([7, 9], [13, 13], color="black", linewidth=1)
+plt.plot([7, 9], [12, 13], color="black", linewidth=1)
 
+plt.plot([10, 12], [13, 14], color="black", linewidth=1)
+plt.plot([10, 12], [13, 13], color="black", linewidth=1)
+plt.plot([10, 12], [13, 12], color="black", linewidth=1)
 plt.show()

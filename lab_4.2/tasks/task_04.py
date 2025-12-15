@@ -21,8 +21,8 @@ result1, _ = integrate.quad(f1, a, b)
 
 print(f"\nОдномерный интеграл: {result1:.6f}\n")
 
-#Двойной интеграл
-print("Интеграл: ∬ [ sin(x^2) * cos(y) + e^(-x*y) + ln(1 + x^2 + y^2) ] dx dy")
+# Двойной интеграл
+print("Интеграл: ∬ [ sin(x) + cos(y) + x*y ] dx dy")
 
 print("""\nСводка:
 π     ≈ 3.1416
@@ -38,7 +38,7 @@ x_b = float(input("Пределы по x до: "))
 y_c = float(input("Пределы по y от: "))
 y_d = float(input("Пределы по y до: "))
 
-f_2 = lambda y, x: np.sin(x**2) * np.cos(y) + np.exp(-x * y) + np.log(1 + x**2 + y**2)
+f_2 = lambda y, x: np.sin(x) + np.cos(y) + x*y
 
 result, _ = integrate.dblquad(f_2, x_a, x_b, y_c, y_d)
 

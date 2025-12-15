@@ -1,4 +1,4 @@
 venv/
 venv_part4/
-pycache/
+*.xlsx
 *.pyc

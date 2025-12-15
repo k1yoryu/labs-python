@@ -2,7 +2,6 @@ import random
 from faker import Faker
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 fake = Faker('ru_RU')
 years = [2021, 2022, 2023, 2024, 2025]
@@ -19,12 +18,12 @@ for _ in range(500):
     form = random.choice(forms)
     specialty = random.choice(specialties)
 
-    math = random.randint(0, 100)
-    lang = random.randint(0, 100)
-    phy = random.randint(0, 100)
+    math = random.randint(70, 100)
+    lang = random.randint(85, 100)
+    phy = random.randint(65, 100)
 
     ct_total = math + lang + phy
-    school = round(random.uniform(5.0, 10.0), 1)
+    school = round(random.uniform(8.5, 10.0), 1)
     total = ct_total + school * 10
 
     students.append({
@@ -44,83 +43,64 @@ for _ in range(500):
 
 df = pd.DataFrame(students)
 
-plt.style.use('ggplot')
+plt.style.use("ggplot")
 
-plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['axes.unicode_minus'] = False
+numeric_cols = [
+    "ЦТ_Математика",
+    "ЦТ_Русский язык",
+    "ЦТ_Физика",
+    "Средний балл аттестата",
+    "Общий балл",
+    "Балл ЦТ/ЦЭ"
+]
 
-yearly_avg = df.groupby('Год поступления')[['ЦТ_Математика', 'ЦТ_Русский язык', 'ЦТ_Физика', 'Средний балл аттестата']].mean().reset_index()
+yearly_avg = df.groupby("Год поступления")[numeric_cols].mean().reset_index()
 
-# График 1: Динамика средних баллов ЦТ
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(yearly_avg['Год поступления'], yearly_avg['ЦТ_Математика'], label='Математика (ЦТ)')
-ax.plot(yearly_avg['Год поступления'], yearly_avg['ЦТ_Русский язык'], label='Русский язык (ЦТ)')
-ax.plot(yearly_avg['Год поступления'], yearly_avg['ЦТ_Физика'], label='Физика (ЦТ)')
-ax.set_title('Динамика средних баллов ЦТ по годам')
-ax.set_xlabel('Год поступления')
-ax.set_ylabel('Средний балл')
-ax.set_xticks(years)
-ax.legend()
-ax.grid(True)
-plt.tight_layout()
+
+#Средние баллы ЦТ
+plt.figure(figsize=(9, 5))
+plt.plot(yearly_avg["Год поступления"], yearly_avg["ЦТ_Математика"], label="Математика")
+plt.plot(yearly_avg["Год поступления"], yearly_avg["ЦТ_Русский язык"], label="Русский язык")
+plt.plot(yearly_avg["Год поступления"], yearly_avg["ЦТ_Физика"], label="Физика")
+plt.title("Средние баллы ЦТ по годам")
+plt.xlabel("Год поступления")
+plt.ylabel("Средний балл")
+plt.legend()
 plt.show()
 
-# График 2: Динамика среднего балла аттестата
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(yearly_avg['Год поступления'], yearly_avg['Средний балл аттестата'], label='Средний балл аттестата', color='green')
-ax.set_title('Динамика среднего балла аттестата')
-ax.set_xlabel('Год поступления')
-ax.set_ylabel('Средний балл')
-ax.set_xticks(years)
-ax.legend()
-ax.grid(True)
-plt.tight_layout()
+#Средний балл аттестата
+plt.figure(figsize=(9, 5))
+plt.plot(yearly_avg["Год поступления"], yearly_avg["Средний балл аттестата"], color="green")
+plt.title("Средний балл аттестата по годам")
+plt.xlabel("Год поступления")
+plt.ylabel("Средний балл")
 plt.show()
 
-# График 3: Динамика проходного балла
-fig, ax = plt.subplots(figsize=(12, 6))
-sns.lineplot(
-    data=df,
-    x='Год поступления',
-    y='Общий балл',
-    hue='Специальность',
-    estimator='min',
-    ci=None,
-    ax=ax
-)
-ax.set_title('Динамика проходного балла по специальностям')
-ax.set_xlabel('Год поступления')
-ax.set_ylabel('Минимальный "Общий балл"')
-ax.set_xticks(years)
-ax.legend(title='Специальность')
-ax.grid(True)
-plt.tight_layout()
+#Минимальный проходной балл по специальностям
+plt.figure(figsize=(10, 5))
+for spec in specialties:
+    subset = df[df["Специальность"] == spec]
+    mins = subset.groupby("Год поступления")["Общий балл"].min()
+    plt.plot(mins.index, mins.values, label=spec)
+
+plt.title("Минимальный проходной балл по специальностям")
+plt.xlabel("Год поступления")
+plt.ylabel("Минимальный общий балл")
+plt.legend()
 plt.show()
 
-# График 4: Количество поступивших по специальностям
-fig, ax = plt.subplots(figsize=(10, 5))
-sns.countplot(
-    data=df,
-    y='Специальность',
-    order=df['Специальность'].value_counts().index,
-    ax=ax
-)
-ax.set_title('Количество студентов по специальностям')
-ax.set_xlabel('Количество студентов')
-ax.set_ylabel('Специальность')
-plt.tight_layout()
+#Количество студентов по специальностям
+plt.figure(figsize=(8, 4))
+spec_counts = df["Специальность"].value_counts()
+plt.barh(spec_counts.index, spec_counts.values)
+plt.title("Количество студентов по специальностям")
+plt.xlabel("Количество")
+plt.ylabel("Специальность")
 plt.show()
 
-# График 5: Статистика по формам обучения
-form_counts = df['Форма обучения'].value_counts()
-fig, ax = plt.subplots(figsize=(7, 7))
-ax.pie(
-    form_counts,
-    labels=form_counts.index,
-    autopct='%1.1f%%',
-    startangle=90
-)
-ax.set_title('Распределение по формам обучения')
-ax.axis('equal')
+#Формы обучения
+plt.figure(figsize=(6, 6))
+form_counts = df["Форма обучения"].value_counts()
+plt.pie(form_counts.values, labels=form_counts.index, autopct="%1.1f%%", startangle=90)
+plt.title("Распределение по формам обучения")
 plt.show()

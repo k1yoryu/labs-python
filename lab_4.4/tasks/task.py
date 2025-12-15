@@ -1,10 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.linear_model import LinearRegression
+import numpy as np
 
-plt.rcParams['font.family'] = 'DejaVu Sans'
-plt.rcParams['font.size'] = 10
 sales_df = pd.read_excel('s7_sales.xlsx')
 sales_df['ISSUE_DATE'] = pd.to_datetime(sales_df['ISSUE_DATE'])
 sales_df['MONTH'] = sales_df['ISSUE_DATE'].dt.month
@@ -13,53 +10,52 @@ sales_df['YEAR'] = sales_df['ISSUE_DATE'].dt.year
 plt.figure(figsize=(15, 10))
 
 plt.subplot(2, 3, 1)
-plt.hist(sales_df['REVENUE_AMOUNT'], bins=50, alpha=0.7, color='skyblue')
-plt.title('Распределение выручки', fontsize=12, fontweight='bold')
-plt.xlabel('Сумма (руб)\n', fontsize=9)
-plt.ylabel('Количество продаж\n', fontsize=9)
-plt.grid(True, alpha=0.3)
+plt.hist(sales_df['REVENUE_AMOUNT'], bins = 50, color = 'skyblue')
+plt.title('Распределение выручки')
+plt.xlabel('Сумма (руб)\n')
+plt.ylabel('Количество продаж\n')
+plt.grid(True, alpha = 0.3)
 
 # Топ аэропортов отправления
 plt.subplot(2, 3, 2)
 top_departures = sales_df['ORIG_CITY_CODE'].value_counts().head(8)
-plt.barh(range(len(top_departures)), top_departures.values, color='lightblue')
+plt.barh(range(len(top_departures)), top_departures.values)
 plt.yticks(range(len(top_departures)), top_departures.index)
-plt.title('Топ-8 аэропортов отправления', fontsize=12, fontweight='bold')
-plt.xlabel('\nКоличество вылетов', fontsize=9)
-plt.grid(True, alpha=0.3)
+plt.title('Топ-8 аэропортов отправления')
+plt.xlabel('\nКоличество вылетов')
+plt.grid(True)
 
 # Топ аэропортов назначения
 plt.subplot(2, 3, 3)
 top_arrivals = sales_df['DEST_CITY_CODE'].value_counts().head(8)
-plt.barh(range(len(top_arrivals)), top_arrivals.values, color='lightgreen')
+plt.barh(range(len(top_arrivals)), top_arrivals.values)
 plt.yticks(range(len(top_arrivals)), top_arrivals.index)
-plt.title('Топ-8 аэропортов назначения', fontsize=12, fontweight='bold')
-plt.xlabel('\nКоличество прилетов', fontsize=9)
-plt.grid(True, alpha=0.3)
+plt.title('Топ-8 аэропортов назначения')
+plt.xlabel('\nКоличество прилетов')
+plt.grid(True)
 
 # Типы пассажиров
 plt.subplot(2, 3, 4)
 pax_counts = sales_df['PAX_TYPE'].value_counts()
-plt.pie(pax_counts.values, labels=pax_counts.index, autopct='%1.1f%%',
-        colors=['lightblue', 'lightgreen', 'lightcoral', 'gold'])
-plt.title('Типы пассажиров', fontsize=12, fontweight='bold')
+plt.pie(pax_counts.values, labels=pax_counts.index, autopct='%1.1f%%')
+plt.title('Типы пассажиров')
 
 # Способы оплаты
 plt.subplot(2, 3, 5)
 fop_counts = sales_df['FOP_TYPE_CODE'].str.split(',').explode().value_counts().head(6)
-plt.bar(fop_counts.index, fop_counts.values, color='orange')
-plt.title('Способы оплаты', fontsize=12, fontweight='bold')
-plt.xlabel('\nСпособ оплаты', fontsize=9)
-plt.ylabel('Количество\n', fontsize=9)
+plt.bar(fop_counts.index, fop_counts.values)
+plt.title('Способы оплаты')
+plt.xlabel('\nСпособ оплаты')
+plt.ylabel('Количество\n')
 plt.xticks(rotation=45)
 
 # Программа лояльности
 plt.subplot(2, 3, 6)
 ffp_counts = sales_df['FFP_FLAG'].value_counts()
-plt.bar(['Без FFP', 'С FFP'], ffp_counts.values, color=['gray', 'red'])
-plt.title('Программа лояльности', fontsize=12, fontweight='bold')
-plt.ylabel('Количество\n', fontsize=9)
-plt.grid(True, alpha=0.3)
+plt.bar(['Без FFP', 'С FFP'], ffp_counts.values)
+plt.title('Программа лояльности')
+plt.ylabel('Количество\n')
+plt.grid(True)
 
 plt.tight_layout()
 plt.show()
@@ -69,30 +65,30 @@ plt.figure(figsize=(15, 5))
 # Сезонность продаж
 plt.subplot(1, 3, 1)
 monthly_sales = sales_df.groupby('MONTH').size()
-plt.plot(monthly_sales.index, monthly_sales.values, 'o-', linewidth=2, color='blue')
-plt.title('Продажи по месяцам', fontsize=12, fontweight='bold')
-plt.xlabel('\nМесяц', fontsize=9)
-plt.ylabel('Количество продаж\n', fontsize=9)
+plt.plot(monthly_sales.index, monthly_sales.values, 'o-')
+plt.title('Продажи по месяцам')
+plt.xlabel('\nМесяц')
+plt.ylabel('Количество продаж\n')
 plt.xticks(range(1, 13))
-plt.grid(True, alpha=0.3)
+plt.grid(True)
 
 # Средняя выручка по типам перелетов
 plt.subplot(1, 3, 2)
 route_revenue = sales_df.groupby('ROUTE_FLIGHT_TYPE')['REVENUE_AMOUNT'].mean()
-plt.bar(route_revenue.index, route_revenue.values, color=['green', 'purple'])
-plt.title('Средняя выручка по типам перелетов', fontsize=12, fontweight='bold')
-plt.xlabel('\nТип перелета', fontsize=9)
-plt.ylabel('Средняя выручка\n', fontsize=9)
-plt.grid(True, alpha=0.3)
+plt.bar(route_revenue.index, route_revenue.values)
+plt.title('Средняя выручка по типам перелетов')
+plt.xlabel('\nТип перелета')
+plt.ylabel('Средняя выручка\n')
+plt.grid(True)
 
 # Каналы продаж
 plt.subplot(1, 3, 3)
 channel_counts = sales_df['SALE_TYPE'].value_counts()
-plt.bar(channel_counts.index, channel_counts.values, color=['navy', 'darkred'])
-plt.title('Каналы продаж', fontsize=12, fontweight='bold')
-plt.xlabel('\nТип продажи', fontsize=9)
-plt.ylabel('Количество\n', fontsize=9)
-plt.grid(True, alpha=0.3)
+plt.bar(channel_counts.index, channel_counts.values)
+plt.title('Каналы продаж')
+plt.xlabel('\nТип продажи')
+plt.ylabel('Количество\n')
+plt.grid(True)
 
 plt.tight_layout()
 plt.show()
@@ -105,31 +101,35 @@ monthly.columns = ['year', 'month', 'выручка', 'билеты']
 monthly = monthly.sort_values(['year', 'month'])
 monthly["номер_месяца"] = range(len(monthly))
 
-X = monthly[["номер_месяца"]]
-model_tickets = LinearRegression().fit(X, monthly["билеты"])
-model_revenue = LinearRegression().fit(X, monthly["выручка"])
+x = monthly["номер_месяца"].values
+y_tickets = monthly["билеты"].values
+y_revenue = monthly["выручка"].values
+
+a_t, b_t = np.polyfit(x, y_tickets, 1)
+a_r, b_r = np.polyfit(x, y_revenue, 1)
 
 future = pd.DataFrame({"номер_месяца": range(len(monthly), len(monthly) + 3)})
-pred_tickets = model_tickets.predict(future)
-pred_revenue = model_revenue.predict(future)
+
+pred_tickets = a_t * future["номер_месяца"].values + b_t
+pred_revenue = a_r * future["номер_месяца"].values + b_r
 
 fig, ax = plt.subplots(1, 2, figsize=(15, 4))
 
 # Прогноз билетов
 ax[0].plot(monthly["номер_месяца"], monthly["билеты"], "o-", label="Факт")
 ax[0].plot(future["номер_месяца"], pred_tickets, "s--", label="Прогноз")
-ax[0].set_title("Количество билетов", fontsize=14)
-ax[0].set_ylabel("Билеты, шт\n", fontsize=10)
+ax[0].set_title("Количество билетов")
+ax[0].set_ylabel("Билеты, шт\n")
 ax[0].legend()
-ax[0].grid(alpha=0.3)
+ax[0].grid(True)
 
 # Прогноз выручки
 ax[1].plot(monthly["номер_месяца"], monthly["выручка"], "o-", label="Факт")
 ax[1].plot(future["номер_месяца"], pred_revenue, "s--", label="Прогноз")
-ax[1].set_title("Выручка", fontsize=14)
-ax[1].set_ylabel("Выручка, руб\n", fontsize=10)
+ax[1].set_title("Выручка")
+ax[1].set_ylabel("Выручка, руб\n")
 ax[1].legend()
-ax[1].grid(alpha=0.3)
+ax[1].grid(True)
 
 plt.tight_layout()
 plt.show()

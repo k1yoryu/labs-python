@@ -43,7 +43,6 @@ for _ in range(500):
 
 df = pd.DataFrame(students)
 
-plt.style.use("ggplot")
 
 numeric_cols = [
     "ЦТ_Математика",
